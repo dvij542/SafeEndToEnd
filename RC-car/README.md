@@ -3,7 +3,7 @@
 This folder contains code for RC car. Important notes :-
 1. We used simple bicycle model for RC car due to lower speed range and limited computation
 2. For higher speeds, running MPC may be heavy for running it high frequency on NVIDIA jetson NX, so pur pursuit can be used instead as an expert controller
-3. Set the parameters inside run_iter.py, get_dataset.py accordingly 
+3. Set the parameters inside run_iter.py, get_dataset.py header accordingly 
 
 # Table of Contents 
    * [ROS installations](#ros-installations)
@@ -240,7 +240,11 @@ python3 get_dataset.py
 rosbag play run_{i}.bag --clock
 ```
 
-This will make a new folder, run{i}_cbf_images, filter out unwanted images from the folder like the repeated images at the beginning before the vehicle starts moving, the images at the end after the vehicle has crossed the lane boundaries as these would affect the training of the new model
+This will make a new folder, run{i}_cbf_images, filter out unwanted images from the folder like the repeated images at the beginning before the vehicle starts moving, the images at the end after the vehicle has crossed the lane boundaries as these would affect the training of the new model. Finally, copy the images from the previous iteration (i-1) i.e. run{i-1}_cbf_images to run{i}_cbf_images with :-
+
+```
+cp run{i-1}_cbf_images/* run{i}_cbf_images/* -R
+```
 
 #### Train model for (i+1)th iteration
 
