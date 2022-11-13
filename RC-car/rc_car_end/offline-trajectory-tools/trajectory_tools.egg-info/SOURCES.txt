@@ -1,0 +1,10 @@
+LICENSE.md
+README.md
+setup.cfg
+setup.py
+trajectory_tools.egg-info/PKG-INFO
+trajectory_tools.egg-info/SOURCES.txt
+trajectory_tools.egg-info/dependency_links.txt
+trajectory_tools.egg-info/entry_points.txt
+trajectory_tools.egg-info/requires.txt
+trajectory_tools.egg-info/top_level.txt

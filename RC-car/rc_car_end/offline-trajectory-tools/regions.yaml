@@ -1,0 +1,10 @@
+# This is an example region file
+
+p1:
+  name: pitbox
+  code: 1
+  file: pitbox.csv
+p2:
+  name: turn1
+  code: 2
+  file: turn1.csv

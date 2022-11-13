@@ -1,0 +1,42 @@
+simulation:
+  input_ttl: ttl.csv
+  output_ttl: ttl_with_speed.csv
+vehicle:
+  acc_speed_lookup:
+    # the engine or motor limit of acceleration under different speeds
+    # limited by excess torque available
+    # mps, mpss
+    - [0.0, 15.0]
+    - [5.0, 15.0]
+    - [10.0, 15.0]
+    - [15.0, 15.0]
+    - [20.0, 10.0]
+    - [25.0, 5.0]
+    - [30.0, 0.0]
+    - [35.0, 0.0]
+  dcc_speed_lookup:
+    # the brake limit of deceleration under different speeds
+    # limited by max brake pressure before the wheels lock up.
+    # use constants to begin with
+    - [0.0, -15.0]
+    - [5.0, -15.0]
+    - [10.0, -15.0]
+    - [15.0, -15.0]
+    - [20.0, -15.0]
+    - [25.0, -15.0]
+    - [30.0, -15.0]
+    - [35.0, -15.0]
+  # the traction circle radius
+  g_circle_radius_mpss: 15.0
+
+  # under construction
+  downforce_speed_lookup:
+    # downforce (N) under different speeds
+    - [0.0, 0.0]
+    - [5.0, 0.0]
+    - [10.0, 0.0]
+    - [15.0, 0.0]
+    - [20.0, 0.0]
+    - [25.0, 0.0]
+    - [30.0, 0.0]
+    - [35.0, 0.0]

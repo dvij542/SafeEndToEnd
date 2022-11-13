@@ -1,0 +1,7 @@
+numpy
+matplotlib
+shapely
+pyyaml
+tk
+bezier
+importlib_resources

@@ -1,0 +1,10 @@
+# This is an example bound file
+
+outside_wall:
+  name: outside_wall
+  type: ring # ring or line
+  file: wall.csv # a TTL or a list of X and Y coordinates
+pit_wall:
+  name: pit_wall
+  type: line # ring or line
+  file: pit.csv # a TTL or a list of X and Y coordinates

@@ -1,0 +1,5 @@
+[console_scripts]
+trajectory_edit = trajectory_tools.entrypoints.edit_trajectory:main
+trajectory_init = trajectory_tools.entrypoints.create_run:main
+trajectory_sim = trajectory_tools.entrypoints.simulate:main
+

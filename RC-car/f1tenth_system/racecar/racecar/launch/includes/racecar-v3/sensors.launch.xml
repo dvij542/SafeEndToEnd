@@ -1,0 +1,18 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+  <arg name="run_camera" default="true"/>
+
+  <!-- ZED camera -->
+  <group ns="front_camera" if="$(arg run_camera)" >
+    <include file="$(find zed_wrapper)/launch/zed2.launch">
+	<arg name="cam_pos_x" value="0.340" />
+        <arg name="cam_pos_z" value="0.105" />
+    </include>
+  </group>
+
+  <!-- Velodyne Puck -->
+  <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+
+
+</launch>
+
