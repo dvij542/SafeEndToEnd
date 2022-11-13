@@ -1,0 +1,13 @@
+Carla/run*_*/
+Carla/raceline_tracking_with_cbf/
+Carla/center_line_tracking/
+Carla/raceline_tracking_without_cbf/
+Carla/global_racetrajectory_opti*/
+Carla/controller_output/
+Carla/carla/
+Carla/saved_models*/
+Carla/Videos/
+Carla/*.mp4
+Carla/*.pdf
+Carla/*.png
+Carla/*.ckpt
