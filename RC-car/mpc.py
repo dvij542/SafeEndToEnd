@@ -5,8 +5,8 @@ import math
 import numpy as np
 import sys
 import pathlib
-import controller
-
+from run_iter import *
+import time
 
 NX = 4  # x = x, y, v, yaw
 NU = 2  # a = [accel, steer]
@@ -19,20 +19,20 @@ Q = np.diag([1.0, 1.0, 0.5, 0.5])  # state cost matrix
 Qf = Q  # state final matrix
 
 # iterative paramter
-MAX_ITER = 3  # Max iteration
-DU_TH = 0.1  # iteration finish param
+MAX_ITER = 2  # Max iteration
+DU_TH = 0.2  # iteration finish param
 
-TARGET_SPEED = 2*controller.forward_speed  # [m/s] target speed
+TARGET_SPEED = 2*forward_speed  # [m/s] target speed
 N_IND_SEARCH = 10  # Search index number
 
 DT = 0.1  # [s] time tick
 
 # Vehicle parameters
-WB = controller.L  # [m]
+WB = L  # [m]
 
-MAX_STEER = controller.max_steering  # maximum steering angle [rad]
-MAX_DSTEER = controller.max_steering_speed  # maximum steering speed [rad/s]
-MAX_SPEED = 2*controller.forward_speed+0.1  # maximum speed [m/s]
+MAX_STEER = max_steering  # maximum steering angle [rad]
+MAX_DSTEER = max_steering_speed  # maximum steering speed [rad/s]
+MAX_SPEED = 2*forward_speed+0.1  # maximum speed [m/s]
 MIN_SPEED = 0.0  # minimum speed [m/s]
 MAX_ACCEL = 1.0  # maximum accel [m/ss]
 
@@ -203,16 +203,15 @@ def linear_mpc_control(xref, xbar, x0, dref):
                             MAX_DSTEER * DT]
 
     cost += cvxpy.quad_form(xref[:, T] - x[:, T], Qf)
-
     constraints += [x[:, 0] == x0]
     constraints += [x[2, :] <= MAX_SPEED]
     constraints += [x[2, :] >= MIN_SPEED]
     constraints += [cvxpy.abs(u[0, :]) <= MAX_ACCEL]
     constraints += [cvxpy.abs(u[1, :]) <= MAX_STEER]
-
+    
     prob = cvxpy.Problem(cvxpy.Minimize(cost), constraints)
     prob.solve(solver=cvxpy.ECOS, verbose=False)
-
+    
     if prob.status == cvxpy.OPTIMAL or prob.status == cvxpy.OPTIMAL_INACCURATE:
         ox = get_nparray_from_matrix(x.value[0, :])
         oy = get_nparray_from_matrix(x.value[1, :])
@@ -267,34 +266,18 @@ def calc_ref_trajectory(state, cx, cy, cyaw, sp, dl, pind):
 
 def get_mpc_control(x,y,yaw,v,traj) :
     odelta, oa = None, None
+    v+=1
     state = State(x,y,yaw,v)
-    target_ind, _ = calc_nearest_index(state,traj[:,0], traj[:,1], traj[:,2], 0)
+    target_ind, _ = calc_nearest_index(state,traj[0], traj[1], traj[2], 0)
     xref, target_ind, dref = calc_ref_trajectory(
-            state, traj[:,0], traj[:,1], traj[:,2], traj[:,3], 0.1, target_ind)
+            state, traj[0], traj[1], traj[2], traj[3], 0.1, target_ind)
     x0 = [state.x, state.y, state.v, state.yaw]  # current state
-
     oa, odelta, ox, oy, oyaw, ov = iterative_linear_mpc_control(
         xref, x0, dref, oa, odelta)
-
     if odelta is not None:
         di, ai = odelta[0], oa[0]
     return di,ai
 
     
-
-def smooth_yaw(yaw):
-
-    for i in range(len(yaw) - 1):
-        dyaw = yaw[i + 1] - yaw[i]
-
-        while dyaw >= math.pi / 2.0:
-            yaw[i + 1] -= math.pi * 2.0
-            dyaw = yaw[i + 1] - yaw[i]
-
-        while dyaw <= -math.pi / 2.0:
-            yaw[i + 1] += math.pi * 2.0
-            dyaw = yaw[i + 1] - yaw[i]
-
-    return yaw
 
 

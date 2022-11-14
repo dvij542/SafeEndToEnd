@@ -43,6 +43,8 @@ HEIGHT = 180 # Height of the image from the camera(s)
 center_line = np.loadtxt('center_line.csv',delimiter=',')[:,:2] # Center line
 race_line = np.loadtxt('raceline3.csv',delimiter=' ')[:,:2] # Race line
 USE_GT_STATE = True # If True, GT state obtaimed from localization will be used else the one obtained from DNN will be used
+max_steering = 0.38
+max_steering_speed = 1.5
 
 # IGNORE these for less speeds
 DELAY_AWARE = False # For computation time delay compensation
@@ -70,19 +72,33 @@ race_line = np.loadtxt('/home/cmu/catkin_ws/src/raceline3.csv',delimiter=' ')[:,
 
 import cubic_spline_planner as csp
 import mpc
-rx,ry,ryaw,rs = csp.CubicSpline2D(race_line[:,0],race_line[:,1],ds=WAYPOINT_GAP)
-race_line[:,0], race_line[:,1] = rx,ry
+rx,ry,ryaw,rk,rs = csp.calc_spline_course(race_line[:,0],race_line[:,1],ds=WAYPOINT_GAP)
+race_line = np.array([rx,ry]).T
 
 if EXPERT_TRACKING == 'mpc' :
-  ryaw = mpc.smooth_yaw(ryaw)
+  def smooth_yaw(yaw):
+      for i in range(len(yaw) - 1):
+          dyaw = yaw[i + 1] - yaw[i]
 
-max_steering = 0.38
+          while dyaw >= math.pi / 2.0:
+              yaw[i + 1] -= math.pi * 2.0
+              dyaw = yaw[i + 1] - yaw[i]
+
+          while dyaw <= -math.pi / 2.0:
+              yaw[i + 1] += math.pi * 2.0
+              dyaw = yaw[i + 1] - yaw[i]
+
+      return yaw
+
+  ryaw = smooth_yaw(ryaw)
+
 if not SAFEGUARD : 
   DATASET_DIR = 'run'+str(RUN_NO)+'_images'
 else :
   DATASET_DIR = 'run'+str(RUN_NO)+'_cbf_images'
 
 itr = 0
+
 
 def find_min_dist(p) :
     x,y = p[0], p[1]
@@ -222,7 +238,7 @@ class image_converter:
     # Reference expert controller to follow racing line
     if True :
       if EXPERT_TRACKING=='mpc' :
-        str_val,a_val = mpc.get_mpc_control(x,y,yaw,math.sqrt(velx**2+vely**2),[rx,ry,ryaw,rs])
+        str_val,a_val = mpc.get_mpc_control(x,y,yaw,math.sqrt(velx**2+vely**2)+0.1,[rx,ry,ryaw,rs])
       else : 
         dists = (race_line - np.array([[x,y]]))
         dists = dists[:,0]**2 + dists[:,1]**2
