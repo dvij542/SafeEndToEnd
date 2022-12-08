@@ -256,7 +256,7 @@ python3 train.py
 
 ### Trained model weights on a track
 
-Download the control and state prediction models for all iterations from here :- ![Link](https://drive.google.com/drive/folders/1AjvvZxM3FPkj-1y2xrkOPcEPwF2gl-zc?usp=sharing). In case you need to fine tune the weights on a new track, using the last iteration would be most convenient
+Download the control and state prediction models for all iterations from here :- ![Link](https://drive.google.com/drive/folders/1AjvvZxM3FPkj-1y2xrkOPcEPwF2gl-zc?usp=share_link). In case you need to fine tune the weights on a new track, using the last iteration would be most convenient
 
 ### Visualize GRADCAM
 
