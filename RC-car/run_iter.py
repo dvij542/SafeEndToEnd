@@ -26,7 +26,8 @@ import time
 
 ############ HEADER #########################
 # Change these params
-RUN_NO = 0 # Iteration no. For 0th iteration expert controller will be used, else the end-to-end controller will be used
+TEST = True
+RUN_NO = 6 # Iteration no. For 0th iteration expert controller will be used, else the end-to-end controller will be used
 RUN_ID = 0 # If taking multiple runs for the same iteration
 LANE_WIDTH = 0.55 # Lane width on one side of centre line. Total lane width = 2*LANE_WIDTH 
 stop_dist_thres = 0.8 # Stop if vehicle deviates with more than this much amount from centre line. Set this to little more than LANE_WIDTH 
@@ -95,6 +96,8 @@ if EXPERT_TRACKING == 'mpc' :
 
 def has_crossed_end_line(x,y) :
   # print("Received ", x,y)
+  if TEST :
+    return False
   return (y>10.7)
 
 def get_optimal_control(steer_ref,steer_var,v,theta,theta_var,x,x_var,curvature,curvature_var) :
@@ -252,7 +255,7 @@ class controller:
         yaw += velyaw*delay
       
     # Reference expert controller to follow racing line
-    if True :
+    if not TEST :
       if EXPERT_TRACKING=='mpc' :
         str_val,a_val = mpc.get_mpc_control(x,y,yaw,math.sqrt(velx**2+vely**2)+0.1,[rx,ry,ryaw,rs])
       else : 
@@ -268,11 +271,11 @@ class controller:
       str_val_updated = (str_val-self.prev_cmd)*ACT_DELAY_CONST+self.prev_cmd
       self.prev_cmd = str_val
       steering = max(min(str_val_updated,max_steering),-max_steering) 
-      
-      cmd = Joy()
-      cmd.header.stamp = now
-      cmd.buttons = [0,0,0,0,1,0,0,0,0,0,0]
       print("Steering = ", steering/max_steering)
+      
+    cmd = Joy()
+    cmd.header.stamp = now
+    cmd.buttons = [0,0,0,0,1,0,0,0,0,0,0]
     
     # Pre-process image :-
     if True :
@@ -331,7 +334,7 @@ class controller:
         theta += 2*math.pi
       print("State : (", x_, ',',theta,',',curvature,')')
     
-    if has_crossed_end_line(x,y) or abs(x_) > stop_dist_thres:
+    if has_crossed_end_line(x,y) or (USE_GT_STATE and abs(x_) > stop_dist_thres):
         traj = np.array(self.traj)
         if SAFEGUARD :
           cbf_txt = 'with_cbf_'
@@ -409,7 +412,8 @@ def main(args):
   tf_listener.waitForTransform("/map", "/base_link", rospy.Time(), rospy.Duration(4.0))
   global start_time
   start_time = time.time()
-  amcl_pose = rospy.Subscriber('/amcl_pose',PoseWithCovarianceStamped,pos_callback_amcl,queue_size=1)
+  if not TEST :
+    amcl_pose = rospy.Subscriber('/amcl_pose',PoseWithCovarianceStamped,pos_callback_amcl,queue_size=1)
   con = controller()
   try:
     rospy.spin()
