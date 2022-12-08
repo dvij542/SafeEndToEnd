@@ -46,7 +46,7 @@ If using conda :-
 
 ## Custom required TorchVision download 
 
-As I was facing problems with directly installing TorchVision for AMD64 architecture using pip or conda, I installed it from source and made some changes to the code, hnce download the modified folder from here as it is referenced by the scripts : ![Link](https://drive.google.com/drive/folders/1IRGEQ829USxVrm-ez-c_A3hGJk8qwm6v?usp=sharing)
+As I was facing problems with directly installing TorchVision for AMD64 architecture using pip or conda, I installed it from source and made some changes to the code, hnce download the modified folder from here as it is referenced by the scripts : [Link](https://drive.google.com/drive/folders/1IRGEQ829USxVrm-ez-c_A3hGJk8qwm6v?usp=sharing)
 
 ## Running Instructions
 
@@ -256,7 +256,7 @@ python3 train.py
 
 ### Trained model weights on a track
 
-Download the control and state prediction models for all iterations from here :- ![Link](https://drive.google.com/drive/folders/1AjvvZxM3FPkj-1y2xrkOPcEPwF2gl-zc?usp=share_link). In case you need to fine tune the weights on a new track, using the last iteration would be most convenient
+Download the control and state prediction models for all iterations from here :- [Link](https://drive.google.com/drive/folders/1AjvvZxM3FPkj-1y2xrkOPcEPwF2gl-zc?usp=share_link). In case you need to fine tune the weights on a new track, using the last iteration would be most convenient
 
 ### Visualize GRADCAM
 
