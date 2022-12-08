@@ -261,11 +261,13 @@ Download the control and state prediction models for all iterations from here :-
 
 ### Instructions for just testing
 
-For just testing the trained models on a new track (assuming similar environment), just download trained models from [Link](https://drive.google.com/drive/folders/1AjvvZxM3FPkj-1y2xrkOPcEPwF2gl-zc?usp=share_link). Place the downloaded model weight folders for all iterations in RC-car folder. Set RUN_NO = 5 and TEST = True (to not use localization in any way) in run_iter.py header and simply run :-
+For just testing the trained models on a new track (assuming similar environment), just download trained models from [Link](https://drive.google.com/drive/folders/1AjvvZxM3FPkj-1y2xrkOPcEPwF2gl-zc?usp=share_link). Place the downloaded model weight folders for all iterations in RC-car folder. Make sure that the lane is marked with yellow colored tapes, lane width is around 0.8m (see an image of the track the models have been trained on below) as the models have been trained on that distribution. Set RUN_NO = 5 and TEST = True (to not use localization in any way) in run_iter.py header and simply run :-
 
 ```
 python3 run_iter.py
 ```
+![Track](https://user-images.githubusercontent.com/43860166/206394499-5f58eff3-0c03-4bd0-b574-276c3b5b2056.jpeg)
+
 
 ### Visualize GRADCAM
 
