@@ -49,6 +49,8 @@ center_line = np.loadtxt('centre_line.csv',delimiter=',')[:,:2] # Center line
 race_line = np.loadtxt('raceline3.csv',delimiter=' ')[:,:2] # Race line
 USE_GT_STATE = True # If True, GT state obtaimed from localization will be used else the one obtained from DNN will be used
 
+if TEST :
+  USE_GT_STATE = False
 # IGNORE these for less speeds
 DELAY_AWARE = False # For computation time delay compensation
 delay = 0. # Shift the initial state by a predicted amount assuming this much computation delay at each step
