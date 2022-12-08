@@ -17,7 +17,8 @@ This folder contains code for RC car. Important notes :-
       * [Record training data](#record-training-data)
       * [Train models](#train-models)
       * [Run an iteration](#run-an-iteration)
-      * [Trained model weights on a track](#trained-model-weights-on-a-track)
+   * [Trained model weights on a track](#trained-model-weights-on-a-track)
+   * [Instructions for just testing](#instructions-for-just-testing)
    * [Visualize GRADCAM](#visualize-gradcam)
 
 ## ROS installations
@@ -257,6 +258,14 @@ python3 train.py
 ### Trained model weights on a track
 
 Download the control and state prediction models for all iterations from here :- [Link](https://drive.google.com/drive/folders/1AjvvZxM3FPkj-1y2xrkOPcEPwF2gl-zc?usp=share_link). In case you need to fine tune the weights on a new track, using the last iteration would be most convenient
+
+### Instructions for just testing
+
+For just testing the trained models on a new track (assuming similar environment), just download trained models from [Link](https://drive.google.com/drive/folders/1AjvvZxM3FPkj-1y2xrkOPcEPwF2gl-zc?usp=share_link). Place the downloaded model weight folders for all iterations in RC-car folder. Set RUN_NO = 5 and TEST = True (to not use localization in any way) in run_iter.py header and simply run :-
+
+```
+python3 run_iter.py
+```
 
 ### Visualize GRADCAM
 
