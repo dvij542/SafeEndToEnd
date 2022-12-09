@@ -33,6 +33,12 @@ Install cv_bridge for Python3 ROS (only if facing any cv2 errors when running sc
 
 Assuming the RC car already has the set up catkin_ws workspace, move the contents of RC-car folder to src of catkin_ws.
 
+Compile catkin_ws workspace with python3 using :-
+
+```
+catkin_make --cmake-args             -DCMAKE_BUILD_TYPE=Release             -DPYTHON_EXECUTABLE=/usr/bin/python3             -DPYTHON_INCLUDE_DIR=/usr/include/python3.6m             -DPYTHON_LIBRARY=/usr/lib/aarch64-linux-gnu/libpython3.6m.so
+```
+
 ## Install dependencies
 
 Run :-
