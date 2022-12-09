@@ -44,7 +44,7 @@ catkin_make --cmake-args             -DCMAKE_BUILD_TYPE=Release             -DPY
 Run :-
 
 ```
-pip install -r requirements.txt
+pip3 install -r dependencies.txt
 ```
 
 Install torch for AMD64 architecture (assuming using NVIDIA jetson nano/NX) using instructionsfrom either :-
