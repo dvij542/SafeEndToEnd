@@ -47,9 +47,10 @@ Run :-
 pip install -r requirements.txt
 ```
 
-OR 
+Install torch for AMD64 architecture (assuming using NVIDIA jetson nano/NX) using instructionsfrom either :-
 
-If using conda :-
+1. [Link](https://docs.nvidia.com/deeplearning/frameworks/install-pytorch-jetson-platform/index.html)
+2. [Link](https://qengineering.eu/install-pytorch-on-jetson-nano.html)
 
 ## Custom required TorchVision download 
 
