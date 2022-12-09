@@ -27,11 +27,11 @@ Install appropriate ROS distro (kinetic/melodic/noetic for ubuntu 16/18/20, full
 
 Install the following ROS packages : [hector-slam](http://wiki.ros.org/hector_slam/Tutorials/SettingUpForYourRobot), [amcl](http://wiki.ros.org/amcl)
 
-Install cv_bridge for Python3 ROS : [Link](https://idorobotics.com/2020/08/19/setting-up-ros-with-python-3-and-opencv/#:~:text=Install%20cv_bridge%20from%20source%201%20Create%20the%20ROS,3%20Set%20install%3A%20catkin%20config%20--install%20More%20items)
+Setup ROS for running Python3 node (Just follow part 1) : [Link](https://medium.com/@beta_b0t/how-to-setup-ros-with-python-3-44a69ca36674)
 
-Setup ROS for running Python3 node : [Link](https://medium.com/@beta_b0t/how-to-setup-ros-with-python-3-44a69ca36674)
+Install cv_bridge for Python3 ROS (only if facing any cv2 errors when running scripts) : [Link](https://idorobotics.com/2020/08/19/setting-up-ros-with-python-3-and-opencv/#:~:text=Install%20cv_bridge%20from%20source%201%20Create%20the%20ROS,3%20Set%20install%3A%20catkin%20config%20--install%20More%20items) or [Link](https://medium.com/@beta_b0t/how-to-setup-ros-with-python-3-44a69ca36674) - Part 2
 
-Assuming the RC car already has the set up catkin_ws workspace
+Assuming the RC car already has the set up catkin_ws workspace, move the contents of RC-car folder to src of catkin_ws.
 
 ## Install dependencies
 
