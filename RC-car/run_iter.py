@@ -45,12 +45,14 @@ WIDTH = 336 # Width of the image from the camera(s)
 HEIGHT = 180 # Height of the image from the camera(s)
 max_steering = 0.38
 max_steering_speed = 1.5
-center_line = np.loadtxt('centre_line.csv',delimiter=',')[:,:2] # Center line
-race_line = np.loadtxt('raceline3.csv',delimiter=' ')[:,:2] # Race line
 USE_GT_STATE = True # If True, GT state obtaimed from localization will be used else the one obtained from DNN will be used
-
+race_line = np.loadtxt('raceline3.csv',delimiter=' ')[:,:2] # Race line
+  
 if TEST :
   USE_GT_STATE = False
+else :
+  center_line = np.loadtxt('centre_line.csv',delimiter=',')[:,:2] # Center line
+  
 # IGNORE these for less speeds
 DELAY_AWARE = False # For computation time delay compensation
 delay = 0. # Shift the initial state by a predicted amount assuming this much computation delay at each step
@@ -139,8 +141,8 @@ def pos_callback(data) :
 
 def pos_callback_amcl(data) :
   global slam_pose_x, slam_pose_y, slam_pose_yaw
-  slam_pose_x, slam_pose_y = 0,0#data.pose.pose.position.x, data.pose.pose.position.y
-  _,_,slam_pose_yaw = 0,0,0#convert_xyzw_to_rpy(data.pose.pose.orientation.x,data.pose.pose.orientation.y,data.pose.pose.orientation.z,data.pose.pose.orientation.w)
+  slam_pose_x, slam_pose_y = data.pose.pose.position.x, data.pose.pose.position.y
+  _,_,slam_pose_yaw = convert_xyzw_to_rpy(data.pose.pose.orientation.x,data.pose.pose.orientation.y,data.pose.pose.orientation.z,data.pose.pose.orientation.w)
 
 def find_min_dist(p) :
     x,y = p[0], p[1]
