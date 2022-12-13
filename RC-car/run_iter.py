@@ -23,6 +23,8 @@ import resnet as models
 import os 
 from scipy.stats import norm
 import time
+import cubic_spline_planner as csp
+import mpc
 
 ############ HEADER #########################
 # Change these params
@@ -47,11 +49,13 @@ max_steering = 0.38
 max_steering_speed = 1.5
 USE_GT_STATE = True # If True, GT state obtaimed from localization will be used else the one obtained from DNN will be used
 race_line = np.loadtxt('raceline3.csv',delimiter=' ')[:,:2] # Race line
-  
+
 if TEST :
   USE_GT_STATE = False
 else :
   center_line = np.loadtxt('centre_line.csv',delimiter=',')[:,:2] # Center line
+  rx,ry,ryaw,rk,rs = csp.calc_spline_course(race_line[:,0],race_line[:,1],ds=WAYPOINT_GAP)
+  race_line = np.array([rx,ry]).T
   
 # IGNORE these for less speeds
 DELAY_AWARE = False # For computation time delay compensation
@@ -75,11 +79,6 @@ else :
   model_path_prev = 'saved_models_iter_cbf'+str(RUN_NO-1)
 start_time =0
 
-
-import cubic_spline_planner as csp
-import mpc
-rx,ry,ryaw,rk,rs = csp.calc_spline_course(race_line[:,0],race_line[:,1],ds=WAYPOINT_GAP)
-race_line = np.array([rx,ry]).T
 
 if EXPERT_TRACKING == 'mpc' :
   def smooth_yaw(yaw):
