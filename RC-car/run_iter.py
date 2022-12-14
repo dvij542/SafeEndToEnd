@@ -48,11 +48,11 @@ HEIGHT = 180 # Height of the image from the camera(s)
 max_steering = 0.38
 max_steering_speed = 1.5
 USE_GT_STATE = True # If True, GT state obtaimed from localization will be used else the one obtained from DNN will be used
-race_line = np.loadtxt('raceline3.csv',delimiter=' ')[:,:2] # Race line
 
 if TEST :
   USE_GT_STATE = False
 else :
+  race_line = np.loadtxt('raceline3.csv',delimiter=' ')[:,:2] # Race line
   center_line = np.loadtxt('centre_line.csv',delimiter=',')[:,:2] # Center line
   rx,ry,ryaw,rk,rs = csp.calc_spline_course(race_line[:,0],race_line[:,1],ds=WAYPOINT_GAP)
   race_line = np.array([rx,ry]).T
@@ -353,7 +353,7 @@ class controller:
       cmd.axes = [0.,forward_speed,steering/max_steering,steering/max_steering,0.,0.]
     else :
       pred_control = get_optimal_control(controls,1.,forward_speed*2,theta,0.,x_,0.,curvature,0.)
-      cmd.axes = [0.,forward_speed,pred_control/max_steering,steering/max_steering,0.,0.]
+      cmd.axes = [0.,forward_speed,pred_control/max_steering,0.,0.,0.]
       print("Predicted steering : ",pred_control/max_steering)
     
     # cmd.axes = [0.,forward_speed,(steering/max_steering),steering/max_steering,0.,0.]
@@ -369,7 +369,7 @@ def main(args):
   slam_pose_x = 0
   slam_pose_y = 0
   slam_pose_yaw = 0
-
+  print("Started")
   # Load models
   if RUN_NO != 0 :
     model = models.resnet18()
@@ -412,7 +412,9 @@ def main(args):
     model_safety_3.load_state_dict(st_dict)
   
   # slam_pose = rospy.Subscriber('/slam_out_pose',PoseStamped,pos_callback)
+  print("Started waiting")
   tf_listener.waitForTransform("/map", "/base_link", rospy.Time(), rospy.Duration(4.0))
+  # print("Got transform")
   global start_time
   start_time = time.time()
   if not TEST :
