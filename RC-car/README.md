@@ -77,7 +77,7 @@ roslaunch hector_slam_launch tutorial.launch
 Check the map visualization on RviZ which must have been launched. When the map seems satisfactory, save the map using :-
 
 ```
-rosrun map_server map_server -f saved_map
+rosrun map_server map_saver -f saved_map
 ```
 
 ### Record center line data
